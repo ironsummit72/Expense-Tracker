@@ -1,0 +1,11 @@
+import { Router } from "express";
+import { addIncome, addExpense, deleteTransaction, currentBalance, getAllTransactions, totalExpense, totalIncome } from "../controllers/transaction.controller";
+const router = Router();
+router.get('/currentbalance',currentBalance);
+router.get('/totalincome',totalIncome);
+router.get('/totalexpenses',totalExpense);
+router.get('/getalltransactions',getAllTransactions);
+router.post("/addincome", addIncome);
+router.post("/addexpense", addExpense);
+router.delete('/delete/:id',deleteTransaction);
+export default router;
