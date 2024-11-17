@@ -18,11 +18,11 @@ export async function addIncome(req: Request, res: Response) {
         amount,
         description,
         catagory,
-        user: req.user.id,
+        user: req.user?.id,
         TransactionType: "INCOME",
         date
       });
-      const userDbResponse = await userModel.findById(req.user.id);
+      const userDbResponse = await userModel.findById(req.user?.id);
       if (userDbResponse && expenseDbResponse) {
         userDbResponse.transaction.push(expenseDbResponse._id);
         await userDbResponse.save();
@@ -49,11 +49,11 @@ export async function addExpense(req: Request, res: Response) {
         amount: -Math.abs(amount),
         description,
         catagory,
-        user: req.user.id,
+        user: req.user?.id,
         TransactionType: "EXPENSE",
         date
       });
-      const userDbResponse = await userModel.findById(req.user.id);
+      const userDbResponse = await userModel.findById(req.user?.id);
       if (userDbResponse && expenseDbResponse) {
         userDbResponse.transaction.push(expenseDbResponse._id);
         await userDbResponse.save();
@@ -80,7 +80,7 @@ export async function deleteTransaction(req: Request, res: Response) {
 
 export async function currentBalance(req: Request, res: Response) {
 try {
-  const currentUser = await transactionModel.find({ user: req.user.id });
+  const currentUser = await transactionModel.find({ user: req.user?.id });
   const currentBalance = currentUser.reduce(
     (prev, curr) => prev + curr.amount,
     0
@@ -95,7 +95,7 @@ try {
 export async function totalIncome(req: Request, res: Response) {
  try {
   const currentUser = await transactionModel.find({
-    user: req.user.id,
+    user: req?.user?.id,
     TransactionType: "INCOME",
   });
   const totalIncome = currentUser.reduce((prev, curr) => prev + curr.amount, 0);
@@ -110,7 +110,7 @@ export async function totalIncome(req: Request, res: Response) {
 export async function totalExpense(req: Request, res: Response) {
   try {
     const currentUser = await transactionModel.find({
-      user: req.user.id,
+      user: req.user?.id,
       TransactionType: "EXPENSE",
     });
     const totalExpense = currentUser.reduce(
@@ -125,7 +125,7 @@ export async function totalExpense(req: Request, res: Response) {
 export async function getAllTransactions(req: Request, res: Response) {
   const {to,from}=req.query
   try {
-    const allTransactions = await transactionModel.find({ user: req.user.id, date:{$gte:from,$lte:to} });
+    const allTransactions = await transactionModel.find({ user: req.user?.id, date:{$gte:from,$lte:to} });
     res
       .status(200)
       .json(new ApiResponse(true, "success", allTransactions, 200));
@@ -136,10 +136,10 @@ export async function getAllTransactions(req: Request, res: Response) {
 
 export async function getOneMonthTransaction(req:Request,res:Response){ 
 try {
-  const transactionIncome=await transactionModel.find({user:req.user.id,TransactionType:"INCOME", date:{$gte:moment().subtract(1, 'month').format('YYYY-MM-DD') }})
-  const transactionExpense=await transactionModel.find({user:req.user.id,TransactionType:"EXPENSE", date:{$gte:moment().subtract(1, 'month').format('YYYY-MM-DD')}})
-  const lastMonthTransactionExpense=await transactionModel.find({user:req.user.id,TransactionType:"EXPENSE", date:{$lte:moment().subtract(2, 'month').format('YYYY-MM-DD')}})
-  const lastMonthTransactionIncome=await transactionModel.find({user:req.user.id,TransactionType:"INCOME", date:{$lte:moment().subtract(2, 'month').format('YYYY-MM-DD')}})
+  const transactionIncome=await transactionModel.find({user:req.user?.id,TransactionType:"INCOME", date:{$gte:moment().subtract(1, 'month').format('YYYY-MM-DD') }})
+  const transactionExpense=await transactionModel.find({user:req.user?.id,TransactionType:"EXPENSE", date:{$gte:moment().subtract(1, 'month').format('YYYY-MM-DD')}})
+  const lastMonthTransactionExpense=await transactionModel.find({user:req.user?.id,TransactionType:"EXPENSE", date:{$lte:moment().subtract(2, 'month').format('YYYY-MM-DD')}})
+  const lastMonthTransactionIncome=await transactionModel.find({user:req.user?.id,TransactionType:"INCOME", date:{$lte:moment().subtract(2, 'month').format('YYYY-MM-DD')}})
   const totalIncomeThisMonth = transactionIncome.reduce((prev, curr) => prev + curr.amount, 0);
   const totalExpenseThisMonth = transactionExpense.reduce((prev, curr) => prev + curr.amount, 0);
   const totalIncomeLastMonth = lastMonthTransactionIncome.reduce((prev, curr) => prev + curr.amount, 0);
@@ -153,7 +153,7 @@ try {
 export async function getAllExpenseTransactions(req:Request,res:Response){
   const {to,from}=req.query
   try {
-    const allTransactions = await transactionModel.find({ user: req.user.id, TransactionType:"EXPENSE", date:{$gte:from,$lte:to}});
+    const allTransactions = await transactionModel.find({ user: req.user?.id, TransactionType:"EXPENSE", date:{$gte:from,$lte:to}});
     res
       .status(200)
       .json(new ApiResponse(true, "success", allTransactions, 200));
@@ -164,7 +164,7 @@ export async function getAllExpenseTransactions(req:Request,res:Response){
 export async function getAllIncomeTransactions(req:Request,res:Response){
   const {to,from}=req.query
   try {
-    const allTransactions = await transactionModel.find({ user: req.user.id, TransactionType:"INCOME", date:{$gte:from,$lte:to}});
+    const allTransactions = await transactionModel.find({ user: req.user?.id, TransactionType:"INCOME", date:{$gte:from,$lte:to}});
     res
       .status(200)
       .json(new ApiResponse(true, "success", allTransactions, 200));

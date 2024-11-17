@@ -1,7 +1,6 @@
 import userModel from "../models/user.model";
 import { Request, Response } from "express";
 import jsonwebtoken from "jsonwebtoken";
-
 import {
   loginFormSchemaEmail,
   loginFormSchemaUsername,
@@ -37,7 +36,7 @@ export async function handleLogin(req: Request, res: Response) {
           res.cookie(
             "sessionId",
             jsonwebtoken.sign(
-              { id: user._id, username: user.username, email: user.email },
+              { id: user._id, username: user.username, email: user.email, fullName: `${user.firstname} ${user.lastname}` },
               `${process.env.JWT_SECRET}`
             ),
             {
@@ -53,8 +52,11 @@ export async function handleLogin(req: Request, res: Response) {
         } else {
           res
             .status(401)
-            .json(new ApiResponse(false, "invalid credentials", null, 401));
+            .json(new ApiResponse(false, "invalid credentials wrong password", null, 401));
         }
+      }else{
+        console.log("user not found");
+         res.status(404).json(new ApiResponse(false, "user not found", null, 404));        
       }
     } else {
       console.log(validation.error);
@@ -74,7 +76,7 @@ export async function handleLogin(req: Request, res: Response) {
           res.cookie(
             "sessionId",
             jsonwebtoken.sign(
-              { id: user._id, username: user.username, email: user.email },
+              { id: user._id, username: user.username, email: user.email, fullName: `${user.firstname} ${user.lastname}` },
               `${process.env.JWT_SECRET}`
             ),
             {
@@ -90,8 +92,11 @@ export async function handleLogin(req: Request, res: Response) {
         } else {
           res
             .status(401)
-            .json(new ApiResponse(false, "invalid credentials", null, 401));
+            .json(new ApiResponse(false, "invalid credentials wrong password", null, 401));
         }
+      }else{
+        console.log("user not found");
+         res.status(404).json(new ApiResponse(false, "user not found with this email address please register", null, 404));
       }
     } else {
       console.log(validation.error);

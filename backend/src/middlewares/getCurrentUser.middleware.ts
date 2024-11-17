@@ -13,12 +13,13 @@ export async function getCurrentUser(
       id: string;
       email: string;
       username: string;
+      fullName: string;
     };
     req.user = payload;
     next();
   } catch (error) {
     console.error(error);
-    next();
     res.status(401).json(new ApiResponse(false, "unauthorized", null, 401));
+    
   }
 }

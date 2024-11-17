@@ -7,10 +7,10 @@ import jsonwebtoken from "jsonwebtoken";
 export async function getUserDetails(req: Request, res: Response) {
   try {
     const user = await userModel
-      .findById(req.user.id)
+      .findById(req.user?.id)
       .select("-password")
       .populate("transaction");
-    const transactions = await transactionModel.find({ user: req.user.id });
+    const transactions = await transactionModel.find({ user: req.user?.id });
     if (transactions) {
       const currentBalance = transactions.reduce(
         (prev, curr) => prev + curr.amount,
