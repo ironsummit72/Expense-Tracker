@@ -1,3 +1,4 @@
+import AxiosInstance from "@/axios/AxiosInstance";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface AuthenticationState {
@@ -6,6 +7,7 @@ interface AuthenticationState {
     id:string
     username: string;
     email: string;
+    fullName: string;
   } | null;
 }
 const initialState: AuthenticationState = {
@@ -23,6 +25,7 @@ export const authSlice = createSlice({
     logout: (state) => {
       state.isUserAuthenticated = false;
       state.userData = null;
+      AxiosInstance.delete('/auth/logout')
     },
   },
 });

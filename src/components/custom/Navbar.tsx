@@ -1,17 +1,29 @@
-import { Home, Menu, X, Wallet, ChartNoAxesColumn } from "lucide-react";
+import { Home, Menu, X, Wallet, ChartNoAxesColumn, LogOut } from "lucide-react";
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "../ui/button";
 import { twMerge } from "tailwind-merge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/redux/slices/AuthSlice";
+import { RootState } from "@/redux/store";
 
 function Navbar() {
   const [open, setOpen] = useState<boolean>(false);
+  const auth=useSelector((state:RootState)=>state.Auth.userData)
   return (
     <header className="bg-white">
       <nav className="flex justify-between items-center bg-white lg:mx-10">
         <div>
-          <img src="./logo/money.png" alt="logo" className="w-10 h-10" />
+          <img src="./logo/money.png" alt="logo" className="w-10 h-10 p-1" />
         </div>
         <div>
           <Menu className="text-2xl lg:hidden" onClick={() => setOpen(!open)} />
@@ -40,10 +52,12 @@ function Navbar() {
             </li>
           </ul>
         </div>
+        <NavbarDropDown fullName={auth?.fullName || ''}>
+
         <Avatar className="hidden lg:block">
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
+          <AvatarFallback>{auth?.fullName.charAt(0)}{auth?.fullName.split(' ')[1].charAt(0)}</AvatarFallback>
         </Avatar>
+        </NavbarDropDown>
       </nav>
       <div
         className={twMerge(
@@ -51,9 +65,10 @@ function Navbar() {
           open ? "block" : "hidden"
         )}
       >
-        <nav className="">
+        <nav className="fixed bg-white h-screen ">
           <ul className="flex flex-col gap-10 ">
-            <li className=" w-screen  rounded-md flex items-center justify-end p-2">
+            <li className=" w-screen  rounded-md flex items-center justify-between p-1">
+            <img src="./logo/money.png" alt="logo" className="w-10 h-10" />
               <Button
                 onClick={() => setOpen(false)}
                 className="text-red-500 outline-red-500 outline hover:outline-none hover:text-white hover:bg-red-500 "
@@ -96,11 +111,30 @@ function Navbar() {
                 CashFlow
               </span>
             </Link>
+
           </ul>
         </nav>
       </div>
     </header>
   );
 }
-
 export default Navbar;
+
+ function NavbarDropDown({children,fullName}: {children: React.ReactNode,fullName:string}) {
+  const dispatch=useDispatch()
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+       {children}
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuLabel>My Account <span className="text-sm font-medium">({fullName})</span></DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={()=>{dispatch(logout())}}>
+          <LogOut className="text-red-500" />
+          <span className="text-red-500">Log out</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}

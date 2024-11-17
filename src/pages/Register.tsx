@@ -1,3 +1,4 @@
+import { postRegisterQf } from "@/api/QueryFunction";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -9,21 +10,53 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 import { RegisterFormSchema } from "@/validations/formValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { useMutation } from "react-query";
+import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
+
 function Register() {
+const {toast}=useToast();
+const navigate=useNavigate();
+const mutation=useMutation({
+  mutationFn:(data:z.infer<typeof RegisterFormSchema>)=>postRegisterQf(data),
+  mutationKey:["register"],
+  onSuccess:(data)=>{
+    toast({
+      title: "Register Successfully",
+      description: `Registered Successfully`,
+    });
+    navigate("/login",{replace:true});
+    console.log(data);
+  },
+
+  onError:(error:AxiosError)=>{
+    toast({
+      title: "Register Failed",
+      description: `Register Failed`,
+      variant: "destructive",
+    });
+    console.error(error);
+  }
+})
   const form = useForm<z.infer<typeof RegisterFormSchema>>({
     resolver: zodResolver(RegisterFormSchema),
     defaultValues: {
       username: "",
+      email: "",
+      password: "",
+      confirmpassword: "",
+      firstname: "",
+      lastname: "",
     },
   });
   function onSubmit(data: z.infer<typeof RegisterFormSchema>) {
-    console.log(data);
+    mutation.mutate(data);
   }
   return (
     <div className="w-full h-screen flex items-center justify-center">

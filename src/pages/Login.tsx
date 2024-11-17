@@ -18,18 +18,20 @@ import {
   loginFormSchemaUsername,
 } from "@/validations/formValidation";
 import { Link, useNavigate } from "react-router-dom";
-import AxiosInstance from "@/axios/AxiosInstance";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-
+import { useMutation } from "react-query";
+import { postLoginQf } from "@/api/QueryFunction";
+import { useToast } from "@/hooks/use-toast";
+import { AxiosError } from "axios";
 export default function Login() {
   const navigate = useNavigate();
- const auth = useSelector((state: RootState) => state.Auth);
- useEffect(() => {
+  const auth = useSelector((state: RootState) => state.Auth);
+  useEffect(() => {
     console.log("Login use Effect");
     if (auth.isUserAuthenticated) {
-     navigate('/')
+      navigate("/");
     }
   }, []);
   return (
@@ -57,9 +59,31 @@ export default function Login() {
     </div>
   );
 }
-
 function LoginWithUsername() {
+  const { toast } = useToast();
   const navigate = useNavigate();
+  const mutation = useMutation({
+    mutationFn: (data: z.infer<typeof loginFormSchemaUsername>) =>
+      postLoginQf(data),
+      mutationKey: ["loginusername"],
+      onSuccess: () => {
+      toast({
+        title: "Login Successfully",
+        description: `Logged In Successfully`,
+      });
+      navigate("/", { replace: true });
+    },
+    onError:(error:AxiosError)=>{
+      toast({
+        title: "Login Failed",
+
+        description: `Login Failed ${error.response?.data?.message}`,
+        variant: "destructive",
+      });
+      console.log("error ",);
+      
+    }
+  });
   const form = useForm<z.infer<typeof loginFormSchemaUsername>>({
     resolver: zodResolver(loginFormSchemaUsername),
     defaultValues: {
@@ -68,14 +92,7 @@ function LoginWithUsername() {
     },
   });
   function onSubmit(data: z.infer<typeof loginFormSchemaUsername>) {
-    AxiosInstance.post("/auth/login", data)
-      .then((res) => {
-        console.log(res.data);
-        navigate("/", { replace: true });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    mutation.mutate(data);
   }
   return (
     <>
@@ -128,7 +145,27 @@ function LoginWithUsername() {
   );
 }
 function LoginWithEmail() {
+  const { toast } = useToast();
   const navigate = useNavigate();
+  const mutation = useMutation({
+    mutationFn: (data: z.infer<typeof loginFormSchemaEmail>) =>
+      postLoginQf(data),
+      mutationKey: ["loginemail"],
+      onSuccess: () => {
+      toast({
+        title: "Login Successfully",
+        description: `Logged In Successfully`,
+      });
+      navigate("/", { replace: true });
+    },
+    onError:(error:AxiosError)=>{
+      toast({
+        title: "Login Failed",
+        description: `Login Failed ${error.response?.data?.message}`,
+        variant: "destructive",
+      });
+    }
+  });
   const form = useForm<z.infer<typeof loginFormSchemaEmail>>({
     resolver: zodResolver(loginFormSchemaEmail),
     defaultValues: {
@@ -137,14 +174,7 @@ function LoginWithEmail() {
     },
   });
   function onSubmit(data: z.infer<typeof loginFormSchemaEmail>) {
-    AxiosInstance.post("/auth/login", data)
-      .then((res) => {
-        console.log(res.data);
-        navigate("/", { replace: true });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    mutation.mutate(data);
   }
   return (
     <>
@@ -163,7 +193,6 @@ function LoginWithEmail() {
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
             name="password"
