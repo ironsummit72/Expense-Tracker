@@ -22,8 +22,8 @@ app.use(cors({
 }))
 app.use("/auth", authRouter);
 app.use(getCurrentUser);
-app.use("/transaction", transactionRouter);
 app.use("/user", userRouter);
+app.use("/transaction", transactionRouter);
 app.listen(port, () => {
   console.log("listening on port ", port);
 });

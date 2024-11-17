@@ -169,3 +169,8 @@ export async function handleRegister(req: Request, res: Response) {
       );
   }
 }
+
+export async function handleLogout(req:Request,res:Response) {
+  res.clearCookie("sessionId");
+  res.status(200).json(new ApiResponse(true, "user logged out successfully", null, 200))
+}
