@@ -62,7 +62,7 @@ const mutation=useMutation({
     <div className="w-full h-screen flex items-center justify-center">
       <Card className="sm:w-[30%] w-[90%]">
         <CardContent className="p-10 ">
-          <h1 className="font-bold text-2xl mb-10">Register</h1>
+          <h1 className="font-bold text-2xl mb-10">Register account</h1>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
