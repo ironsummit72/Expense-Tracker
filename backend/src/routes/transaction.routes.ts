@@ -10,5 +10,5 @@ router.get('/incometransactions',getAllIncomeTransactions);
 router.get('/getonemonthtransaction',getOneMonthTransaction);
 router.post("/addincome", addIncome);
 router.post("/addexpense", addExpense);
-router.delete('/delete/:id',deleteTransaction);
+router.delete('/:id',deleteTransaction);
 export default router;
