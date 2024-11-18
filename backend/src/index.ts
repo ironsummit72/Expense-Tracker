@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: false }));
 // establish db connection
 connectDatabase();
 app.use(cors({
-  origin:"http://localhost:5173",
+  origin:`${process.env.ORIGIN_URL}`,
   credentials:true
 }))
 app.use("/auth", authRouter);

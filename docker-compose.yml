@@ -1,0 +1,54 @@
+services:
+  database:
+    image: mongo
+    restart: on-failure
+    ports:
+      - 27019:27017
+    container_name: database
+
+
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - 3001:3001
+    depends_on:
+      - database
+      - api-gateway
+    restart: on-failure
+    environment:
+     
+      - DB_URL=mongodb://database:27017
+      - DB_NAME=expensetracker
+      - JWT_SECRET='monza'
+      - ORIGIN_URL=http://localhost
+    container_name: backend
+
+
+  
+  frontend:
+
+    build: 
+      context: .
+      dockerfile: Dockerfile
+
+    depends_on:
+      - database
+      - backend
+    restart: on-failure
+    environment:
+      - VITE_BACKEND_URL=/api
+    container_name: frontend
+  
+  api-gateway:
+    build: 
+      context: ./gateway
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    depends_on:
+     - database
+    restart: on-failure
+
+  

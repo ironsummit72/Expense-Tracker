@@ -77,7 +77,7 @@ function LoginWithUsername() {
       toast({
         title: "Login Failed",
 
-        description: `Login Failed ${error.response?.data?.message}`,
+        description: `Login Failed ${error.response?.data}`,
         variant: "destructive",
       });
       console.log("error ",);
@@ -161,7 +161,7 @@ function LoginWithEmail() {
     onError:(error:AxiosError)=>{
       toast({
         title: "Login Failed",
-        description: `Login Failed ${error.response?.data?.message}`,
+        description: `Login Failed ${error.response?.data}`,
         variant: "destructive",
       });
     }
