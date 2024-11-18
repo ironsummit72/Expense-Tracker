@@ -52,3 +52,15 @@ export const RegisterFormSchema = z
     message: "password do not match",
     path: ["confirmpassword"],
   });
+  export const transactionFormSchema = z.object({
+    amount: z.number(),
+    description: z.string().min(1,{message:"description cannot be empty"}).trim(),
+    catagory: z.string().min(1,{message:"catagory cannot be empty"}).trim(),
+    transaction_type: z.string(),
+    date: z.date(),
+  });
+  
+  export const editTransactionFormSchema = z.object({
+    amount: z.number(),
+    description: z.string().min(1,{message:"description cannot be empty"}).trim(),
+  });

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addIncome, addExpense, deleteTransaction, currentBalance, getAllTransactions, totalExpense, totalIncome,getOneMonthTransaction,getAllExpenseTransactions,getAllIncomeTransactions } from "../controllers/transaction.controller";
+import { addIncome, addExpense, deleteTransaction, currentBalance, getAllTransactions, totalExpense, totalIncome,getOneMonthTransaction,getAllExpenseTransactions,getAllIncomeTransactions,editTransaction,getTransactionDetails } from "../controllers/transaction.controller";
 const router = Router();
 router.get('/currentbalance',currentBalance);
 router.get('/totalincome',totalIncome);
@@ -8,7 +8,9 @@ router.get('/getalltransactions',getAllTransactions);
 router.get('/expensetransactions',getAllExpenseTransactions);
 router.get('/incometransactions',getAllIncomeTransactions);
 router.get('/getonemonthtransaction',getOneMonthTransaction);
+router.get('/:id',getTransactionDetails);
 router.post("/addincome", addIncome);
 router.post("/addexpense", addExpense);
 router.delete('/:id',deleteTransaction);
+router.patch('/:id',editTransaction);
 export default router;
