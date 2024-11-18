@@ -26,6 +26,7 @@ import { Badge } from "@/components/ui/badge";
 import moment from "moment";
 import { Button } from "@/components/ui/button";
 import DeleteAlertDialog from "./DeleteAlertDialog";
+import EditTransactionDialog from "../../TransactionDialog/EditTransactionDialog";
 
 export default function AllTransactionContent() {
   type TransactionType = {
@@ -90,7 +91,10 @@ export default function AllTransactionContent() {
             <TableCell>
               {moment(item.date).format("YYYY-MMM-DD")}
             </TableCell>
-            <TableCell className="flex items-center gap-2"><Button  variant={"outline"} className="text-green-600 h-5  border-green-500 hover:text-green-600">Edit</Button>
+            <TableCell className="flex items-center gap-2">
+              <EditTransactionDialog transactionId={item._id}>
+              <Button  variant={"outline"} className="text-orange-600 h-5  border-orange-500 hover:text-orange-600">Edit</Button>
+              </EditTransactionDialog>
             <DeleteAlertDialog transactionId={item._id}>
              <Button  variant={"outline"} className="text-red-600 h-5 border-red-500 hover:text-red-600 ">Delete</Button>
             </DeleteAlertDialog>

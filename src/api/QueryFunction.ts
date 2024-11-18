@@ -1,5 +1,5 @@
 import AxiosInstance from "@/axios/AxiosInstance";
-import { loginFormSchemaEmail, loginFormSchemaUsername, RegisterFormSchema, transactionFormSchema } from "@/validations/formValidation";
+import { editTransactionFormSchema, loginFormSchemaEmail, loginFormSchemaUsername, RegisterFormSchema, transactionFormSchema } from "@/validations/formValidation";
 import { z } from "zod";
 
 export async function postLoginQf(data:z.infer<typeof loginFormSchemaUsername>|z.infer<typeof loginFormSchemaEmail>) {
@@ -68,10 +68,18 @@ export async function deleteTransactionQf(transactionId:string) {
     return response.data.data;
   }
 }
-export async function updateTransactionQf(transactionId:string,data:z.infer<typeof transactionFormSchema>) {
+export async function updateTransactionQf(transactionId:string,data:z.infer<typeof editTransactionFormSchema>) {
   if(transactionId)
   {
     const response = await AxiosInstance.patch(`/transaction/${transactionId}`, data,{headers: {'content-type': 'application/x-www-form-urlencoded'}});
+    return response.data.data;
+  }
+}
+export async function getTransactionDetailsQf(transactionId:string)
+{
+  if(transactionId)
+  {
+    const response = await AxiosInstance.get(`/transaction/${transactionId}`);
     return response.data.data;
   }
 }
