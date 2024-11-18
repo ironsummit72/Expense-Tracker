@@ -98,6 +98,7 @@ function LoginWithUsername() {
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <h1 className="text-2xl font-bold">Login with username</h1>
           <FormField
             control={form.control}
             name="username"
@@ -105,7 +106,7 @@ function LoginWithUsername() {
               <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input placeholder="e.g lewis" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -180,6 +181,7 @@ function LoginWithEmail() {
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <h1 className="text-2xl font-bold">Login with email</h1>
           <FormField
             control={form.control}
             name="email"
@@ -187,7 +189,7 @@ function LoginWithEmail() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input placeholder="e.g. lewis@example.com" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
