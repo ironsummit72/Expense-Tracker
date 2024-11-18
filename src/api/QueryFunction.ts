@@ -61,3 +61,17 @@ export async function postAddExpenseQf(data:z.infer<typeof transactionFormSchema
     return response.data.data;
   }
 }
+export async function deleteTransactionQf(transactionId:string) {
+  if(transactionId)
+  {
+    const response = await AxiosInstance.delete(`/transaction//${transactionId}`);
+    return response.data.data;
+  }
+}
+export async function updateTransactionQf(transactionId:string,data:z.infer<typeof transactionFormSchema>) {
+  if(transactionId)
+  {
+    const response = await AxiosInstance.patch(`/transaction/${transactionId}`, data,{headers: {'content-type': 'application/x-www-form-urlencoded'}});
+    return response.data.data;
+  }
+}

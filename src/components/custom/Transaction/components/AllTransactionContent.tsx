@@ -24,6 +24,8 @@ import { useQuery } from "react-query";
 import { getAllTransactionsQf } from "@/api/QueryFunction";
 import { Badge } from "@/components/ui/badge";
 import moment from "moment";
+import { Button } from "@/components/ui/button";
+import DeleteAlertDialog from "./DeleteAlertDialog";
 
 export default function AllTransactionContent() {
   type TransactionType = {
@@ -65,6 +67,7 @@ export default function AllTransactionContent() {
           <TableHead className="w-[100px]">Description</TableHead>
           <TableHead>Type</TableHead>
           <TableHead>Date</TableHead>
+          <TableCell></TableCell>
           <TableHead className="text-right">Amount</TableHead>
         </TableRow>
       </TableHeader>
@@ -87,6 +90,11 @@ export default function AllTransactionContent() {
             <TableCell>
               {moment(item.date).format("YYYY-MMM-DD")}
             </TableCell>
+            <TableCell className="flex items-center gap-2"><Button  variant={"outline"} className="text-green-600 h-5  border-green-500 hover:text-green-600">Edit</Button>
+            <DeleteAlertDialog transactionId={item._id}>
+             <Button  variant={"outline"} className="text-red-600 h-5 border-red-500 hover:text-red-600 ">Delete</Button>
+            </DeleteAlertDialog>
+             </TableCell>
             <TableCell
               className={`${
                 item.TransactionType === "INCOME"
@@ -102,6 +110,7 @@ export default function AllTransactionContent() {
       <TableFooter>
         <TableRow>
           <TableCell colSpan={3}>Total</TableCell>
+          <TableCell></TableCell>
           <TableCell
             className={`${
               subTotal! > 0 ? "text-green-500" : "text-red-600"

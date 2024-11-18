@@ -24,7 +24,8 @@ import { useQuery } from "react-query";
 import { getAllIncomeTransactionQf } from "@/api/QueryFunction";
 import { Badge } from "@/components/ui/badge";
 import moment from "moment";
-
+import DeleteAlertDialog from "./DeleteAlertDialog";
+import { Button } from "@/components/ui/button";
 export default function IncomeContent() {
   type TransactionType = {
     _id: string;
@@ -41,7 +42,7 @@ export default function IncomeContent() {
     queryKey: ["allincometransactions", date],
     queryFn:()=> getAllIncomeTransactionQf(date),
   });
-  console.log("Income Transaction",transaction);
+
   
 
   const subTotal = transaction?.reduce((prev, curr) => prev + curr.amount, 0);
@@ -67,6 +68,7 @@ export default function IncomeContent() {
           <TableHead className="w-[100px]">Description</TableHead>
           <TableHead>Type</TableHead>
           <TableHead>Date</TableHead>
+          <TableCell></TableCell>
           <TableHead className="text-right">Amount</TableHead>
         </TableRow>
       </TableHeader>
@@ -79,7 +81,7 @@ export default function IncomeContent() {
                 className={`${
                   item.TransactionType === "INCOME"
                     ? "rounded-full   text-green-500"
-                    : "rounded-full  text-red-500"
+                    : "rounded-full   text-red-500"
                 }`}
                 variant={"outline"}
               >
@@ -89,6 +91,11 @@ export default function IncomeContent() {
             <TableCell>
               {moment(item.date).format("YYYY-MMM-DD")}
             </TableCell>
+            <TableCell className="flex items-center gap-2"><Button  variant={"outline"} className="text-green-600 h-5  border-green-500 hover:text-green-600">Edit</Button>
+            <DeleteAlertDialog transactionId={item._id}>
+             <Button  variant={"outline"} className="text-red-600 h-5 border-red-500 hover:text-red-600 ">Delete</Button>
+            </DeleteAlertDialog>
+             </TableCell>
             <TableCell
               className={`${
                 item.TransactionType === "INCOME"
@@ -104,6 +111,7 @@ export default function IncomeContent() {
       <TableFooter>
         <TableRow>
           <TableCell colSpan={3}>Total</TableCell>
+          <TableCell></TableCell>
           <TableCell
             className={`${
               subTotal! > 0 ? "text-green-500" : "text-red-600"
