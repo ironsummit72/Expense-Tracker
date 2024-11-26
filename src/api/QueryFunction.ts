@@ -83,3 +83,16 @@ export async function getTransactionDetailsQf(transactionId:string)
     return response.data.data;
   }
 }
+
+export async function getCashFlowIncomeExpenseDataQf() {
+  const response=await AxiosInstance.get('/cashflow/expenseincomedata');
+  return response.data.data;
+}
+export async function getCashFlowIncomeDataCurrentMonthQf() {
+  const response=await AxiosInstance.get('/cashflow/incomedataofcurrentmonth');
+  return response.data.data;
+}
+export async function getCashFlowExpenseDataCurrentMonthQf() {
+  const response=await AxiosInstance.get('/cashflow/expensedataofcurrentmonth');
+  return response.data.data;
+}
