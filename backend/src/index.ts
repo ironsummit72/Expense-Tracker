@@ -2,6 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import authRouter from "./routes/auth.routes";
 import transactionRouter from "./routes/transaction.routes";
+import cashFlowRouter from "./routes/cashflow.routes";  
 import userRouter from "./routes/user.routes";
 import connectDatabase from "./utils/connectDatabase.util";
 import cookieParser from "cookie-parser";
@@ -24,6 +25,7 @@ app.use("/auth", authRouter);
 app.use(getCurrentUser);
 app.use("/user", userRouter);
 app.use("/transaction", transactionRouter);
+app.use('/cashflow',cashFlowRouter)
 app.listen(port, () => {
   console.log("listening on port ", port);
 });

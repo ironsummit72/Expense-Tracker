@@ -23,7 +23,9 @@ function Navbar() {
     <header className="bg-white">
       <nav className="flex justify-between items-center bg-white lg:mx-10">
         <div>
-          <img src="./logo/money.png" alt="logo" className="w-10 h-10 p-1" />
+         <Link to={'/'}>
+         <img src="./logo/money.png" alt="logo" className="w-10 h-10 p-1" />
+         </Link>
         </div>
         <div>
           <Menu className="text-2xl lg:hidden" onClick={() => setOpen(!open)} />
@@ -35,18 +37,18 @@ function Navbar() {
               </span></NavLink>
             </li>
             <li>
-              <NavLink className={({isActive}) => isActive ? "text-black font-bold" : "text-gray-600"} to={"/networth"}>
-              <span className="flex items-center gap-2">
-                <ChartNoAxesColumn />
-                Networth
-              </span>
-              </NavLink>
-            </li>
-            <li>
               <NavLink className={({isActive}) => isActive ? "text-black font-bold" : "text-gray-600"} to={"/cashflow"}>
               <span className="flex items-center gap-2">
                 <Wallet />
                 CashFlow
+              </span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink className={({isActive}) => isActive ? "text-black font-bold" : "text-gray-600"} to={"/networth"}>
+              <span className="flex items-center gap-2">
+                <ChartNoAxesColumn />
+                Networth
               </span>
               </NavLink>
             </li>
@@ -91,16 +93,7 @@ function Navbar() {
                 Home
               </span>
             </Link>
-            <Link
-              onClick={() => setOpen(false)}
-              className="hover:bg-gray-200 w-screen p-4 rounded-md "
-              to={"/networth"}
-            >
-              <span className="flex items-center gap-2">
-                <ChartNoAxesColumn />
-                Networth
-              </span>
-            </Link>
+           
             <Link
               onClick={() => setOpen(false)}
               className="hover:bg-gray-200 w-screen p-4 rounded-md "
@@ -109,6 +102,16 @@ function Navbar() {
               <span className="flex items-center gap-2">
                 <Wallet />
                 CashFlow
+              </span>
+            </Link>
+            <Link
+              onClick={() => setOpen(false)}
+              className="hover:bg-gray-200 w-screen p-4 rounded-md "
+              to={"/networth"}
+            >
+              <span className="flex items-center gap-2">
+                <ChartNoAxesColumn />
+                Networth
               </span>
             </Link>
 
