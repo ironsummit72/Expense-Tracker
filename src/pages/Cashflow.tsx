@@ -12,7 +12,7 @@ import { getCashFlowExpenseDataCurrentMonthQf, getCashFlowIncomeDataCurrentMonth
 
 
 
-// Mock data for recent transactions
+
 const recentTransactions = [
   { id: 1, description: 'Salary', amount: 5000, type: 'income' },
   { id: 2, description: 'Rent', amount: 1200, type: 'expense' },
@@ -43,8 +43,7 @@ const {data:totalExpensesData}=useQuery({
 
 
   
-  // const [totalIncome, setTotalIncome] = useState(6000)
-  // const [totalExpenses, setTotalExpenses] = useState(1650)
+
   
    const totalIncome=totalIncomeData?.totalIncomeCurrentMonth
    const totalExpenses=totalExpensesData?.totalExpenseCurrentMonth

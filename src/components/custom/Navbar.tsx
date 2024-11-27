@@ -17,6 +17,7 @@ import { logout } from "@/redux/slices/AuthSlice";
 import { RootState } from "@/redux/store";
 
 function Navbar() {
+  const dispatch=useDispatch()
   const [open, setOpen] = useState<boolean>(false);
   const auth=useSelector((state:RootState)=>state.Auth.userData)
   return (
@@ -61,6 +62,7 @@ function Navbar() {
         </Avatar>
         </NavbarDropDown>
       </nav>
+      {/* mobile menu */}
       <div
         className={twMerge(
           "w-full h-screen bg-white z-10 absolute top-0 left-0 lg:hidden",
@@ -93,7 +95,6 @@ function Navbar() {
                 Home
               </span>
             </Link>
-           
             <Link
               onClick={() => setOpen(false)}
               className="hover:bg-gray-200 w-screen p-4 rounded-md "
@@ -114,7 +115,17 @@ function Navbar() {
                 Networth
               </span>
             </Link>
-
+            <Button variant={"link"}
+              onClick={() => {
+                setOpen(false)
+                dispatch(logout())
+              }}
+              className="hover:bg-gray-200 text-red-500 w-screen p-4 rounded-md justify-start ">
+              <span className="flex  items-center gap-2">
+                <LogOut />
+                Logout
+              </span>
+            </Button>
           </ul>
         </nav>
       </div>
